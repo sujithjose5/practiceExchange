@@ -1,7 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'new_article_form.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  return runApp(
+    MaterialApp(
+      home: Scaffold(
+        body: NewArticleForm(),
+      ),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -45,6 +54,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<String> languages = [
+    'English',
+    'French',
+    'Spanish',
+  ];
+  String selectedLanguage = 'English';
+
   Icon _searchIcon = new Icon(Icons.search);
 
   Widget _appBarTitle = RaisedButton(
@@ -75,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Home',
@@ -99,6 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   ];
 
+  //navigate to different screen based on bottom navigation button click
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -109,11 +126,23 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
       width: 160.0,
       child: Card(
-        color: Colors.blue,
-        child: Column(
-          children: <Widget>[
-            Center(child: Text(title)),
-          ],
+        color: Color.fromRGBO(0, 111, 173, 1),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -221,7 +250,6 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       } else {
         this._searchIcon = new Icon(Icons.search);
-        this._appBarTitle = new Text('Search Example');
         _filter.clear();
       }
     });
@@ -229,33 +257,49 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _bottomNavigationBar() {
     return BottomNavigationBar(
+      backgroundColor: Color.fromRGBO(0, 111, 173, 1),
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          title: Text('Home'),
+          icon: Icon(Icons.home, color: Colors.white),
+          title: Text(
+            'Home',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.bookmark),
-          title: Text('Saved'),
+          icon: Icon(Icons.bookmark, color: Colors.white),
+          title: Text(
+            'Saved',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         BottomNavigationBarItem(
           //change new article for pen
-          icon: Icon(Icons.pages),
-          title: Text('New Article'),
+          icon: Icon(Icons.pages, color: Colors.white),
+          title: Text(
+            'New Article',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.notifications),
-          title: Text('Notification'),
+          icon: Icon(Icons.notifications, color: Colors.white),
+          title: Text(
+            'Notification',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          title: Text('Profile'),
+          icon: Icon(Icons.person, color: Colors.white),
+          title: Text(
+            'Profile',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ],
       currentIndex: _selectedIndex,
       type: BottomNavigationBarType.fixed,
       unselectedItemColor: const Color(0xff797979),
-      selectedItemColor: Colors.blue,
+      selectedItemColor: Color.fromRGBO(0, 111, 173, 1),
       onTap: _onItemTapped,
     );
   }
@@ -265,7 +309,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Container(
         margin: EdgeInsets.only(left: 20.0, right: 10.0),
         child: Divider(
-          color: Colors.black,
+          color: Colors.grey,
           height: 5,
         ),
       ),
@@ -276,6 +320,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(0, 111, 173, 1),
         title: _appBarTitle,
         leading: new IconButton(
           icon: _searchIcon,
@@ -287,7 +332,13 @@ class _MyHomePageState extends State<MyHomePage> {
           Align(
             alignment: Alignment.centerLeft,
             child: Container(
-              child: Text('Topics for you'),
+              child: Text(
+                'Topics for you',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Color.fromRGBO(0, 111, 173, 1),
+                ),
+              ),
             ),
           ),
           Container(
@@ -305,7 +356,13 @@ class _MyHomePageState extends State<MyHomePage> {
           Align(
             alignment: Alignment.centerLeft,
             child: Container(
-              child: Text('Your Daily Read'),
+              child: Text(
+                'Your Daily Read',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Color.fromRGBO(0, 111, 173, 1),
+                ),
+              ),
             ),
           ),
           getArticles(),
