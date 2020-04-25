@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:practiceexchange/screens/authentication/signup.dart';
-final databaseReference = Firestore.instance;
+//final databaseReference = Firestore.instance;
 
 void main() => runApp(MyApp());
 
