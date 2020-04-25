@@ -1,6 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'new_article_form.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:practiceexchange/screens/authenticate/signup.dart';
+import 'package:practiceexchange/models/user.dart';
+import 'package:practiceexchange/services/auth.dart';
+import 'package:practiceexchange/screens/wrapper.dart';
+
+final databaseReference = Firestore.instance;
+
 
 void main() {
   return runApp(
@@ -16,21 +24,27 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return StreamProvider<User>.value(
+      value: AuthService().user,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          primarySwatch: Colors.blue,
+        ),
+        home: Wrapper(),
+        routes: {
+          '/authentication': (context) => SignUp(),
+        },
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -331,14 +345,6 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Align(
             alignment: Alignment.centerLeft,
-            child: Container(
-              child: Text(
-                'Topics for you',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Color.fromRGBO(0, 111, 173, 1),
-                ),
-              ),
             ),
           ),
           Container(
