@@ -13,7 +13,10 @@ import 'package:practiceexchange/values/radii.dart';
 import 'package:practiceexchange/values/colors.dart';
 
 
-class MobileWidget extends StatelessWidget {
+class SignIn extends StatelessWidget {
+
+  final Function toggleView;
+  SignIn({ this.toggleView });
   
   @override
   Widget build(BuildContext context) {
