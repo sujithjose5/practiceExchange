@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:practiceexchange/screens/authentication/signup.dart';
 final databaseReference = Firestore.instance;
 
 void main() => runApp(MyApp());
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: {
+        '/authentication': (context) => MobileWidget(),
+      },
     );
   }
 }
@@ -77,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Home',
@@ -288,8 +292,11 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Align(
             alignment: Alignment.centerLeft,
-            child: Container(
+            child: FlatButton(
               child: Text('Topics for you'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/authentication');
+              },
             ),
           ),
           Container(
