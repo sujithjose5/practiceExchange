@@ -8,6 +8,7 @@ import 'package:practiceexchange/services/auth.dart';
 import 'package:practiceexchange/screens/wrapper.dart';
 import 'package:practiceexchange/screens/home.dart';
 import 'package:practiceexchange/screens/read_post/readpost.dart';
+import 'package:practiceexchange/screens/post_widget/post_widget.dart';
 
 final databaseReference = Firestore.instance;
 
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/authentication': (context) => SignUp(),
           '/readpost': (context) => ReadPost(),
+          '/writepost': (context) => PostWidget(),
         },
       ),
     );

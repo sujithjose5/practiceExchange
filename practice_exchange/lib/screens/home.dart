@@ -88,6 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
     if (index == 1) {
       Navigator.pushNamed(context, '/readpost');
     }
+    if (index == 2) {
+      Navigator.pushNamed(context, '/writepost');
+    }
   }
 
   Widget categoryList(String title) {
@@ -245,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
           //change new article for pen
           icon: Icon(Icons.pages, color: Colors.white),
           title: Text(
-            'New Article',
+            'Post',
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -302,7 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
               child: FlatButton(
-                onPressed: getData(),
+                onPressed: (){},
                 child: Text(
                   "Topics for you",
                   style: TextStyle(
