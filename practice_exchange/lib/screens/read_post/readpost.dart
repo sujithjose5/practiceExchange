@@ -49,8 +49,7 @@ class ReadPost extends StatelessWidget {
         decoration: BoxDecoration(
           color: Color.fromARGB(255, 255, 255, 255),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: ListView(
           children: [
 //            Container(
 //              height: 113,

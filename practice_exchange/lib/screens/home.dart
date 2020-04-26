@@ -312,7 +312,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(10.0),
           border: Border.all(
             color: Colors.white,
           )),
@@ -321,9 +321,14 @@ class _MyHomePageState extends State<MyHomePage> {
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value),
+            child: Text(value,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                )),
           );
         }).toList(),
+        dropdownColor: Color.fromRGBO(0, 111, 173, 1),
         onChanged: (newValue) {
           setState(() {
             _mySelection = newValue;
@@ -335,7 +340,10 @@ class _MyHomePageState extends State<MyHomePage> {
           color: Colors.white,
         ),
         hint: Text('Select language',
-            style: TextStyle(color: Colors.white, fontSize: 17)),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 17,
+            )),
         value: _mySelection,
       ),
     );
