@@ -1,9 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:practiceexchange/services/auth.dart';
 import '../services/auth.dart';
 import 'package:practiceexchange/widgets/view_item_widget.dart';
 import 'package:practiceexchange/read_post_widget/read_post_widget.dart';
 import 'package:practiceexchange/values/values.dart';
+import 'package:practiceexchange/services/database.dart';
+
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -81,6 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _selectedIndex = index;
     });
+    if (index == 1) {
+      Navigator.pushNamed(context, '/readpost');
+    }
   }
 
   Widget categoryList(String title) {
@@ -294,13 +301,16 @@ class _MyHomePageState extends State<MyHomePage> {
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-              child: Text(
-                "Topics for you",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
+              child: FlatButton(
+                onPressed: getData(),
+                child: Text(
+                  "Topics for you",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),
