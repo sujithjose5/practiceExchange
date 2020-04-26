@@ -120,46 +120,46 @@ class _SignUpState extends State<SignUp> {
 //                ),
                   ),
             ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                width: 370,
-                height: 1,
-                margin: EdgeInsets.only(left: 20, top: 19),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryElement,
-                ),
-                child: Container(),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                margin: EdgeInsets.only(top: 48),
-                child: Text(
-                  "Your email",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: AppColors.secondaryText,
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                width: 370,
-                height: 1,
-                margin: EdgeInsets.only(left: 20, top: 19),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryElement,
-                ),
-                child: Container(),
-              ),
-            ),
+//            Align(
+//              alignment: Alignment.topLeft,
+//              child: Container(
+//                width: 370,
+//                height: 1,
+//                margin: EdgeInsets.only(left: 20, top: 19),
+//                decoration: BoxDecoration(
+//                  color: AppColors.primaryElement,
+//                ),
+//                child: Container(),
+//              ),
+//            ),
+//            Align(
+//              alignment: Alignment.topCenter,
+//              child: Container(
+//                margin: EdgeInsets.only(top: 48),
+//                child: Text(
+//                  "Your email",
+//                  textAlign: TextAlign.center,
+//                  style: TextStyle(
+//                    color: AppColors.secondaryText,
+//                    fontFamily: "Montserrat",
+//                    fontWeight: FontWeight.w500,
+//                    fontSize: 14,
+//                  ),
+//                ),
+//              ),
+//            ),
+//            Align(
+//              alignment: Alignment.topLeft,
+//              child: Container(
+//                width: 370,
+//                height: 1,
+//                margin: EdgeInsets.only(left: 20, top: 19),
+//                decoration: BoxDecoration(
+//                  color: AppColors.primaryElement,
+//                ),
+//                child: Container(),
+//              ),
+//            ),
             Container(
               height: 44,
               margin: EdgeInsets.only(left: 20, top: 47, right: 20),
@@ -180,7 +180,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                   Positioned(
-                    top: 13,
+                    //top: 0,
                     child: FlatButton(
                       child: Text(
                         "Create Account",
@@ -211,6 +211,12 @@ class _SignUpState extends State<SignUp> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            FlatButton(
+                onPressed: () => widget.toggleView(),
+                child: Center(child: Text('Already have an account? Sign in')))
           ],
         ),
       ),

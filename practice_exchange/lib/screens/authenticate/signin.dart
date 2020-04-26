@@ -1,26 +1,33 @@
-/*
-*  signup.dart
-*  Hacknow sketch
-*
-*  Created by [Author].
-*  Copyright © 2018 [Company]. All rights reserved.
-    */
-
 import 'package:flutter/material.dart';
 import 'package:practiceexchange/values/values.dart';
 import 'package:practiceexchange/values/borders.dart';
 import 'package:practiceexchange/values/radii.dart';
 import 'package:practiceexchange/values/colors.dart';
+import 'package:practiceexchange/services/auth.dart';
 
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
 
   final Function toggleView;
   SignIn({ this.toggleView });
-  
+
+  @override
+  _SignInState createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
+  final AuthService _auth = AuthService();
+
+  final _formKey = GlobalKey<FormState>();
+  bool loading = false;
+
+  // text field state
+  String email = '';
+  String password = '';
+  String message = '';
+
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
@@ -63,7 +70,7 @@ class SignIn extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.only(top: 94),
                 child: Text(
-                  "Sign-in to your account",
+                  "Sign in to your account",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: AppColors.primaryText,
@@ -77,59 +84,84 @@ class SignIn extends StatelessWidget {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                margin: EdgeInsets.only(top: 67),
-                child: Text(
-                  "Your full name",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: AppColors.secondaryText,
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                  ),
-                ),
+                  margin: EdgeInsets.only(top: 67),
+                  child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          TextFormField(
+                            //decoration: textInputDecoration.copyWith(hintText: 'Email'),
+                            validator: (val) =>
+                            val.isEmpty ? 'Enter an email' : null,
+                            onChanged: (val) {
+                              setState(() => email = val);
+                            },
+                          ),
+                          SizedBox(height: 20.0),
+                          TextFormField(
+                            //decoration: textInputDecoration.copyWith(hintText: 'Password'),
+                            obscureText: true,
+                            validator: (val) => val.length < 6
+                                ? 'Enter a password 6+ chars long'
+                                : null,
+                            onChanged: (val) {
+                              setState(() => password = val);
+                            },
+                          ),
+                        ],
+                      ))
+//                child: Text(
+//                  "Your full name",
+//                  textAlign: TextAlign.center,
+//                  style: TextStyle(
+//                    color: AppColors.secondaryText,
+//                    fontFamily: "Montserrat",
+//                    fontWeight: FontWeight.w500,
+//                    fontSize: 14,
+//                  ),
+//                ),
               ),
             ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                width: 370,
-                height: 1,
-                margin: EdgeInsets.only(left: 20, top: 19),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryElement,
-                ),
-                child: Container(),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                margin: EdgeInsets.only(top: 48),
-                child: Text(
-                  "Your email",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: AppColors.secondaryText,
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                width: 370,
-                height: 1,
-                margin: EdgeInsets.only(left: 20, top: 19),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryElement,
-                ),
-                child: Container(),
-              ),
-            ),
+//            Align(
+//              alignment: Alignment.topLeft,
+//              child: Container(
+//                width: 370,
+//                height: 1,
+//                margin: EdgeInsets.only(left: 20, top: 19),
+//                decoration: BoxDecoration(
+//                  color: AppColors.primaryElement,
+//                ),
+//                child: Container(),
+//              ),
+//            ),
+//            Align(
+//              alignment: Alignment.topCenter,
+//              child: Container(
+//                margin: EdgeInsets.only(top: 48),
+//                child: Text(
+//                  "Your email",
+//                  textAlign: TextAlign.center,
+//                  style: TextStyle(
+//                    color: AppColors.secondaryText,
+//                    fontFamily: "Montserrat",
+//                    fontWeight: FontWeight.w500,
+//                    fontSize: 14,
+//                  ),
+//                ),
+//              ),
+//            ),
+//            Align(
+//              alignment: Alignment.topLeft,
+//              child: Container(
+//                width: 370,
+//                height: 1,
+//                margin: EdgeInsets.only(left: 20, top: 19),
+//                decoration: BoxDecoration(
+//                  color: AppColors.primaryElement,
+//                ),
+//                child: Container(),
+//              ),
+//            ),
             Container(
               height: 44,
               margin: EdgeInsets.only(left: 20, top: 47, right: 20),
@@ -150,21 +182,43 @@ class SignIn extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 13,
-                    child: Text(
-                      "Sign in",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColors.accentText,
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w800,
-                        fontSize: 14,
+                    //top: 0,
+                    child: FlatButton(
+                      child: Text(
+                        "Sign in",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColors.accentText,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w800,
+                          fontSize: 14,
+                        ),
                       ),
+                        onPressed: () async {
+                          if(_formKey.currentState.validate()){
+                            setState(() {
+                              loading = true;
+                            });
+                            dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                            if(result == null) {
+                              setState(() {
+                                loading = false;
+                                message = 'Could not sign in with those credentials';
+                              });
+                            }
+                          }
+                        }
                     ),
                   ),
                 ],
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            FlatButton(
+                onPressed: () => widget.toggleView(),
+                child: Center(child: Text('Create an account')))
           ],
         ),
       ),
