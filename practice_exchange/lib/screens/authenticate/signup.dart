@@ -32,8 +32,7 @@ class _SignUpState extends State<SignUp> {
         decoration: BoxDecoration(
           color: Color.fromARGB(255, 255, 255, 255),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: ListView(
           children: [
             Align(
               alignment: Alignment.topLeft,

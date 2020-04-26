@@ -1,12 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:practiceexchange/services/auth.dart';
-import '../services/auth.dart';
-import 'package:practiceexchange/widgets/view_item_widget.dart';
-import 'package:practiceexchange/read_post_widget/read_post_widget.dart';
-import 'package:practiceexchange/values/values.dart';
+import 'package:practiceexchange/new_article_form.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
 
   final String title;
 
@@ -15,71 +21,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> languages = [
-    'English',
-    'French',
-    'Spanish',
-  ];
-  String selectedLanguage = 'English';
-
   Icon _searchIcon = new Icon(Icons.search);
-
-  Widget _appBarTitle = RaisedButton(
-      color: Colors.transparent,
-      onPressed: () {},
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          side: BorderSide(color: Colors.white)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            'Languages',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-            ),
-          ),
-          Icon(
-            Icons.arrow_drop_down,
-            color: Colors.white,
-          ),
-        ],
-      ));
 
   final TextEditingController _filter = TextEditingController();
 
+  Widget screenPage;
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Saved',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: New Article',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 4: Notification',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 5: Profile',
-      style: optionStyle,
-    ),
+  String _selecteedScreen = '';
+  static List<String> _widgetOptions = <String>[
+    'Index 0: Home',
+    'Index 1: Saved',
+    '/newArticle',
+    'Index 4: Notification',
+    'Index 5: Profile',
   ];
 
   //navigate to different screen based on bottom navigation button click
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _selecteedScreen = _widgetOptions[index];
+      Navigator.pushNamed(context, _selecteedScreen);
     });
   }
 
@@ -277,27 +239,123 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  final List<String> _dropdownValues = [
+    "English",
+    "French",
+    "Spanish",
+  ]; //The list of values we want on the dropdown
+
+  String _currentlySelected = ""; //var to hold currently selected value
+
+  //make the drop down its own widget for readability
+  Widget dropdownWidget() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: DropdownButton(
+        icon: Icon(Icons.arrow_drop_down),
+        //map each value from the lIst to our dropdownMenuItem widget
+        items: _dropdownValues
+            .map((value) => DropdownMenuItem(
+                  child: Text(value),
+                  value: value,
+                ))
+            .toList(),
+        onChanged: (String value) {
+          //once dropdown changes, update the state of out currentValue
+          setState(() {
+            _currentlySelected = value;
+          });
+        },
+        //this wont make dropdown expanded and fill the horizontal space
+        isExpanded: false,
+        //make default value of dropdown the first value of our list
+        value: _dropdownValues.first,
+      ),
+    );
+  }
+
+  String _mySelection;
+
+  Widget _appBarTitle = RaisedButton(
+      color: Colors.transparent,
+      onPressed: () {},
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          side: BorderSide(color: Colors.white)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            'Languages',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          ),
+          Icon(
+            Icons.arrow_drop_down,
+            color: Colors.white,
+          ),
+        ],
+      ));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(0, 111, 173, 1),
-        title: _appBarTitle,
-        leading: new IconButton(
-          icon: _searchIcon,
-          onPressed: _searchPressed,
-        ),
-      ),
+          backgroundColor: Color.fromRGBO(0, 111, 173, 1),
+          title: Theme(
+            data: Theme.of(context)
+                .copyWith(canvasColor: Theme.of(context).primaryColor),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.0),
+                  border: Border.all(
+                    color: Colors.white,
+                  )),
+              child: DropdownButton(
+                items: <String>['English', 'French', 'Spanish', 'Italian']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (newvalue) {
+                  setState(() {
+                    _mySelection = newvalue;
+                    print(_mySelection);
+                  });
+                },
+                icon: Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.white,
+                ),
+                hint: Text('Select language',
+                    style: TextStyle(color: Colors.white, fontSize: 17)),
+                value: _mySelection,
+              ),
+            ), // Your Dropdown Code Here,
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.search, color: Colors.white),
+              onPressed: null,
+            ),
+          ]),
       body: Column(
         children: <Widget>[
           Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            alignment: Alignment.topLeft,
+            child: Container(
+              margin: EdgeInsets.only(left: 29, top: 27),
               child: Text(
                 "Topics for you",
+                textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Color.fromARGB(255, 0, 0, 0),
                   fontFamily: "Montserrat",
                   fontWeight: FontWeight.w600,
                   fontSize: 20,
@@ -306,7 +364,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 5.0),
+            margin: EdgeInsets.symmetric(vertical: 20.0),
             height: 80.0,
             child: ListView(
               scrollDirection: Axis.horizontal,
@@ -318,12 +376,14 @@ class _MyHomePageState extends State<MyHomePage> {
           // add divider
           _divider(),
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.topLeft,
             child: Container(
+              margin: EdgeInsets.only(left: 29, top: 27),
               child: Text(
-                'Trending Posts',
+                'Your Daily read',
+                textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: AppColors.primaryText,
+                  color: Color.fromARGB(255, 0, 0, 0),
                   fontFamily: "Montserrat",
                   fontWeight: FontWeight.w600,
                   fontSize: 20,
@@ -331,7 +391,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          SizedBox(height: 10,),
           getArticles(),
         ],
       ),
@@ -343,487 +402,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-//class HomeScreen extends StatefulWidget {
-//  void onGroupPressed(BuildContext context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ReadPostWidget()));
-//  @override
-//  _HomeScreenState createState() => _HomeScreenState();
-//}
-//
-//class _HomeScreenState extends State<HomeScreen> {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: AppBar(
-//        actions: <Widget>[
-//          FlatButton(
-//            child: Text('Sign Out'),
-//            onPressed: (){
-//              AuthService().signOut();
-//            },
-//          )
-//        ],
-//      ),
-//      body: Container(
-//        constraints: BoxConstraints.expand(),
-//        decoration: BoxDecoration(
-//          color: Color.fromARGB(255, 255, 255, 255),
-//        ),
-//        child: Stack(
-//          alignment: Alignment.bottomCenter,
-//          children: [
-//            Positioned(
-//              left: -1,
-//              top: 0,
-//              right: -39,
-//              bottom: 0,
-//              child: Column(
-//                crossAxisAlignment: CrossAxisAlignment.stretch,
-//                children: [
-//                  Container(
-//                    height: 113,
-//                    margin: EdgeInsets.only(left: 1, right: 39),
-//                    child: Stack(
-//                      alignment: Alignment.center,
-//                      children: [
-//                        Positioned(
-//                          left: 0,
-//                          top: 0,
-//                          right: 0,
-//                          child: Container(
-//                            height: 113,
-//                            decoration: BoxDecoration(
-//                              color: AppColors.primaryBackground,
-//                            ),
-//                            child: Container(),
-//                          ),
-//                        ),
-//                        Positioned(
-//                          left: 27,
-//                          top: 58,
-//                          right: 26,
-//                          child: Row(
-//                            crossAxisAlignment: CrossAxisAlignment.stretch,
-//                            children: [
-//                              Align(
-//                                alignment: Alignment.topLeft,
-//                                child: Container(
-//                                  width: 104,
-//                                  height: 38,
-//                                  decoration: BoxDecoration(
-//                                    border: Border.all(
-//                                      width: 1,
-//                                      color: Color.fromARGB(255, 255, 255, 255),
-//                                    ),
-//                                    borderRadius: BorderRadius.all(Radius.circular(3.5)),
-//                                  ),
-//                                  child: Container(),
-//                                ),
-//                              ),
-//                              Spacer(),
-//                              Align(
-//                                alignment: Alignment.topLeft,
-//                                child: Container(
-//                                  width: 27,
-//                                  height: 27,
-//                                  margin: EdgeInsets.only(top: 7),
-//                                  child: Image.asset(
-//                                    "assets/images/shape-4.png",
-//                                    fit: BoxFit.none,
-//                                  ),
-//                                ),
-//                              ),
-//                            ],
-//                          ),
-//                        ),
-//                        Positioned(
-//                          left: 45,
-//                          top: 71,
-//                          child: Row(
-//                            crossAxisAlignment: CrossAxisAlignment.stretch,
-//                            children: [
-//                              Align(
-//                                alignment: Alignment.topLeft,
-//                                child: Container(
-//                                  width: 48,
-//                                  height: 13,
-//                                  child: Image.asset(
-//                                    "assets/images/shape-5.png",
-//                                    fit: BoxFit.none,
-//                                  ),
-//                                ),
-//                              ),
-//                              Align(
-//                                alignment: Alignment.topLeft,
-//                                child: Container(
-//                                  width: 8,
-//                                  height: 4,
-//                                  margin: EdgeInsets.only(left: 17, top: 5),
-//                                  child: Image.asset(
-//                                    "assets/images/path-3.png",
-//                                    fit: BoxFit.none,
-//                                  ),
-//                                ),
-//                              ),
-//                            ],
-//                          ),
-//                        ),
-//                      ],
-//                    ),
-//                  ),
-//                  Align(
-//                    alignment: Alignment.topLeft,
-//                    child: Container(
-//                      margin: EdgeInsets.only(left: 29, top: 27),
-//                      child: Text(
-//                        "Topics for you",
-//                        textAlign: TextAlign.left,
-//                        style: TextStyle(
-//                          color: AppColors.primaryText,
-//                          fontFamily: "Montserrat",
-//                          fontWeight: FontWeight.w600,
-//                          fontSize: 20,
-//                        ),
-//                      ),
-//                    ),
-//                  ),
-//                  Align(
-//                    alignment: Alignment.topRight,
-//                    child: Container(
-//                      width: 425,
-//                      height: 90,
-//                      margin: EdgeInsets.only(top: 15),
-//                      decoration: BoxDecoration(
-//                        borderRadius: BorderRadius.all(Radius.circular(6)),
-//                      ),
-//                      child: GridView.builder(
-//                        scrollDirection: Axis.horizontal,
-//                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-//                          maxCrossAxisExtent: 90,
-//                          childAspectRatio: 0.65693,
-//                          mainAxisSpacing: 10,
-//                        ),
-//                        itemBuilder: (context, index) => ViewItemWidget(),
-//                      ),
-//                    ),
-//                  ),
-//                  Container(
-//                    height: 1,
-//                    margin: EdgeInsets.only(top: 2, right: 39),
-//                    decoration: BoxDecoration(
-//                      color: Color.fromARGB(255, 232, 232, 232),
-//                    ),
-//                    child: Container(),
-//                  ),
-//                  Align(
-//                    alignment: Alignment.topLeft,
-//                    child: Container(
-//                      margin: EdgeInsets.only(left: 29, top: 19),
-//                      child: Text(
-//                        "Trending Posts",
-//                        textAlign: TextAlign.left,
-//                        style: TextStyle(
-//                          color: AppColors.primaryText,
-//                          fontFamily: "Montserrat",
-//                          fontWeight: FontWeight.w600,
-//                          fontSize: 20,
-//                        ),
-//                      ),
-//                    ),
-//                  ),
-//                  Align(
-//                    alignment: Alignment.topCenter,
-//                    child: Container(
-//                      width: 359,
-//                      //height: 89,
-//                      margin: EdgeInsets.only(top: 27),
-//                      child: FlatButton(
-//                        onPressed: ()=> this.onGroupPressed(context), //TODO add push navigator
-//                        color: Color.fromARGB(0, 0, 0, 0),
-//                        shape: RoundedRectangleBorder(
-//                          borderRadius: BorderRadius.all(Radius.circular(0)),
-//                        ),
-//                        textColor: Color.fromARGB(255, 0, 0, 0),
-//                        padding: EdgeInsets.all(0),
-//                        child: Text(
-//                          "",
-//                          textAlign: TextAlign.left,
-//                          style: TextStyle(
-//                            color: Color.fromARGB(255, 0, 0, 0),
-//                            fontWeight: FontWeight.w400,
-//                            fontSize: 12,
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                  ),
-//                  Align(
-//                    alignment: Alignment.topCenter,
-//                    child: Container(
-//                      width: 359,
-//                      height: 89,
-//                      margin: EdgeInsets.only(top: 26),
-//                      child: Image.asset(
-//                        "assets/images/group-7.png",
-//                        fit: BoxFit.cover,
-//                      ),
-//                    ),
-//                  ),
-//                  Align(
-//                    alignment: Alignment.topCenter,
-//                    child: Container(
-//                      width: 359,
-//                      height: 89,
-//                      margin: EdgeInsets.only(top: 26),
-//                      child: Image.asset(
-//                        "assets/images/group-6.png",
-//                        fit: BoxFit.cover,
-//                      ),
-//                    ),
-//                  ),
-//                  Spacer(),
-//                  Align(
-//                    alignment: Alignment.topCenter,
-//                    child: Container(
-//                      width: 359,
-//                      height: 89,
-//                      margin: EdgeInsets.only(bottom: 26),
-//                      child: Image.asset(
-//                        "assets/images/group.png",
-//                        fit: BoxFit.cover,
-//                      ),
-//                    ),
-//                  ),
-//                  Container(
-//                    height: 93,
-//                    margin: EdgeInsets.only(left: 1, right: 39),
-//                    child: Stack(
-//                      alignment: Alignment.center,
-//                      children: [
-//                        Positioned(
-//                          bottom: 4,
-//                          child: Image.asset(
-//                            "assets/images/group-3.png",
-//                            fit: BoxFit.cover,
-//                          ),
-//                        ),
-//                        Positioned(
-//                          left: 0,
-//                          right: 0,
-//                          bottom: 0,
-//                          child: Container(
-//                            height: 78,
-//                            decoration: BoxDecoration(
-//                              color: AppColors.secondaryBackground,
-//                              boxShadow: [
-//                                Shadows.primaryShadow,
-//                              ],
-//                            ),
-//                            child: Container(),
-//                          ),
-//                        ),
-//                        Positioned(
-//                          left: 42,
-//                          right: 42,
-//                          bottom: 25,
-//                          child: Row(
-//                            crossAxisAlignment: CrossAxisAlignment.stretch,
-//                            children: [
-//                              Align(
-//                                alignment: Alignment.bottomLeft,
-//                                child: Container(
-//                                  width: 33,
-//                                  height: 42,
-//                                  child: Column(
-//                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-//                                    children: [
-//                                      Container(
-//                                        height: 24,
-//                                        margin: EdgeInsets.symmetric(horizontal: 3),
-//                                        child: Image.asset(
-//                                          "assets/images/icon-action-home-24px.png",
-//                                          fit: BoxFit.none,
-//                                        ),
-//                                      ),
-//                                      Spacer(),
-//                                      Text(
-//                                        "Home",
-//                                        textAlign: TextAlign.center,
-//                                        style: TextStyle(
-//                                          color: Color.fromARGB(255, 0, 111, 173),
-//                                          fontFamily: "Montserrat",
-//                                          fontWeight: FontWeight.w600,
-//                                          fontSize: 10,
-//                                        ),
-//                                      ),
-//                                    ],
-//                                  ),
-//                                ),
-//                              ),
-//                              Align(
-//                                alignment: Alignment.bottomLeft,
-//                                child: Container(
-//                                  width: 31,
-//                                  height: 42,
-//                                  margin: EdgeInsets.only(left: 42),
-//                                  child: Column(
-//                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-//                                    children: [
-//                                      Container(
-//                                        height: 24,
-//                                        margin: EdgeInsets.only(left: 3, right: 4),
-//                                        decoration: BoxDecoration(
-//                                          color: AppColors.accentElement,
-//                                          borderRadius: Radii.k12pxRadius,
-//                                        ),
-//                                        child: Container(),
-//                                      ),
-//                                      Spacer(),
-//                                      Text(
-//                                        "Saved",
-//                                        textAlign: TextAlign.center,
-//                                        style: TextStyle(
-//                                          color: Color.fromARGB(255, 131, 131, 131),
-//                                          fontFamily: "Montserrat",
-//                                          fontWeight: FontWeight.w600,
-//                                          fontSize: 10,
-//                                        ),
-//                                      ),
-//                                    ],
-//                                  ),
-//                                ),
-//                              ),
-//                              Spacer(),
-//                              Align(
-//                                alignment: Alignment.bottomLeft,
-//                                child: Container(
-//                                  width: 67,
-//                                  height: 42,
-//                                  margin: EdgeInsets.only(right: 26),
-//                                  child: Column(
-//                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-//                                    children: [
-//                                      Align(
-//                                        alignment: Alignment.topCenter,
-//                                        child: Container(
-//                                          width: 24,
-//                                          height: 24,
-//                                          decoration: BoxDecoration(
-//                                            color: AppColors.accentElement,
-//                                            borderRadius: Radii.k12pxRadius,
-//                                          ),
-//                                          child: Container(),
-//                                        ),
-//                                      ),
-//                                      Spacer(),
-//                                      Text(
-//                                        "Notifications",
-//                                        textAlign: TextAlign.center,
-//                                        style: TextStyle(
-//                                          color: Color.fromARGB(255, 131, 131, 131),
-//                                          fontFamily: "Montserrat",
-//                                          fontWeight: FontWeight.w600,
-//                                          fontSize: 10,
-//                                        ),
-//                                      ),
-//                                    ],
-//                                  ),
-//                                ),
-//                              ),
-//                              Align(
-//                                alignment: Alignment.bottomLeft,
-//                                child: Container(
-//                                  width: 31,
-//                                  height: 42,
-//                                  child: Column(
-//                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-//                                    children: [
-//                                      Container(
-//                                        height: 24,
-//                                        margin: EdgeInsets.only(left: 3, right: 4),
-//                                        decoration: BoxDecoration(
-//                                          color: AppColors.accentElement,
-//                                          borderRadius: Radii.k12pxRadius,
-//                                        ),
-//                                        child: Container(),
-//                                      ),
-//                                      Spacer(),
-//                                      Text(
-//                                        "Saved",
-//                                        textAlign: TextAlign.center,
-//                                        style: TextStyle(
-//                                          color: Color.fromARGB(255, 131, 131, 131),
-//                                          fontFamily: "Montserrat",
-//                                          fontWeight: FontWeight.w600,
-//                                          fontSize: 10,
-//                                        ),
-//                                      ),
-//                                    ],
-//                                  ),
-//                                ),
-//                              ),
-//                            ],
-//                          ),
-//                        ),
-//                      ],
-//                    ),
-//                  ),
-//                ],
-//              ),
-//            ),
-//            Positioned(
-//              bottom: 25,
-//              child: Column(
-//                crossAxisAlignment: CrossAxisAlignment.stretch,
-//                children: [
-//                  Container(
-//                    height: 24,
-//                    decoration: BoxDecoration(
-//                      color: AppColors.accentElement,
-//                      borderRadius: Radii.k12pxRadius,
-//                    ),
-//                    child: Container(),
-//                  ),
-//                  Spacer(),
-//                  Container(
-//                    margin: EdgeInsets.only(left: 1),
-//                    child: Text(
-//                      "Post",
-//                      textAlign: TextAlign.center,
-//                      style: TextStyle(
-//                        color: Color.fromARGB(255, 131, 131, 131),
-//                        fontFamily: "Montserrat",
-//                        fontWeight: FontWeight.w600,
-//                        fontSize: 10,
-//                      ),
-//                    ),
-//                  ),
-//                ],
-//              ),
-//            ),
-//          ],
-//        ),
-//      ),
-//    );
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//    Scaffold(
-//        appBar: AppBar(
-//          title: Text('home'),
-//        ),
-//        body: FlatButton(
-//          child: Text('Sign Out'),
-//          onPressed: (){
-//            AuthService().signOut();
-//          },
-//        )
-//    );
-//  }
-//}
-//
+//AppBar(
+//backgroundColor: Color.fromRGBO(0, 111, 173, 1),
+//actions: <Widget>[
+////Add the dropdown widget to the `Action` part of our appBar. it can also be among the `leading` part
+//dropdownWidget(),
+//],
+//leading: new IconButton(
+//icon: _searchIcon,
+//onPressed: _searchPressed,
+//),
+//),

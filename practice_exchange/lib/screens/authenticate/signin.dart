@@ -5,11 +5,9 @@ import 'package:practiceexchange/values/radii.dart';
 import 'package:practiceexchange/values/colors.dart';
 import 'package:practiceexchange/services/auth.dart';
 
-
 class SignIn extends StatefulWidget {
-
   final Function toggleView;
-  SignIn({ this.toggleView });
+  SignIn({this.toggleView});
 
   @override
   _SignInState createState() => _SignInState();
@@ -34,8 +32,7 @@ class _SignInState extends State<SignIn> {
         decoration: BoxDecoration(
           color: Color.fromARGB(255, 255, 255, 255),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: ListView(
           children: [
             Align(
               alignment: Alignment.topLeft,
@@ -92,7 +89,7 @@ class _SignInState extends State<SignIn> {
                           TextFormField(
                             //decoration: textInputDecoration.copyWith(hintText: 'Email'),
                             validator: (val) =>
-                            val.isEmpty ? 'Enter an email' : null,
+                                val.isEmpty ? 'Enter an email' : null,
                             onChanged: (val) {
                               setState(() => email = val);
                             },
@@ -120,7 +117,7 @@ class _SignInState extends State<SignIn> {
 //                    fontSize: 14,
 //                  ),
 //                ),
-              ),
+                  ),
             ),
 //            Align(
 //              alignment: Alignment.topLeft,
@@ -184,31 +181,32 @@ class _SignInState extends State<SignIn> {
                   Positioned(
                     //top: 0,
                     child: FlatButton(
-                      child: Text(
-                        "Sign in",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColors.accentText,
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.w800,
-                          fontSize: 14,
+                        child: Text(
+                          "Sign in",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppColors.accentText,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w800,
+                            fontSize: 14,
+                          ),
                         ),
-                      ),
                         onPressed: () async {
-                          if(_formKey.currentState.validate()){
+                          if (_formKey.currentState.validate()) {
                             setState(() {
                               loading = true;
                             });
-                            dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                            if(result == null) {
+                            dynamic result = await _auth
+                                .signInWithEmailAndPassword(email, password);
+                            if (result == null) {
                               setState(() {
                                 loading = false;
-                                message = 'Could not sign in with those credentials';
+                                message =
+                                    'Could not sign in with those credentials';
                               });
                             }
                           }
-                        }
-                    ),
+                        }),
                   ),
                 ],
               ),
