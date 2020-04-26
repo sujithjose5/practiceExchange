@@ -211,6 +211,12 @@ class _SignUpState extends State<SignUp> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            FlatButton(
+                onPressed: () => widget.toggleView(),
+                child: Center(child: Text('Already have an account? Sign in')))
           ],
         ),
       ),

@@ -1,26 +1,33 @@
-/*
-*  signup.dart
-*  Hacknow sketch
-*
-*  Created by [Author].
-*  Copyright © 2018 [Company]. All rights reserved.
-    */
-
 import 'package:flutter/material.dart';
 import 'package:practiceexchange/values/values.dart';
 import 'package:practiceexchange/values/borders.dart';
 import 'package:practiceexchange/values/radii.dart';
 import 'package:practiceexchange/values/colors.dart';
+import 'package:practiceexchange/services/auth.dart';
 
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
 
   final Function toggleView;
   SignIn({ this.toggleView });
-  
+
+  @override
+  _SignInState createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
+  final AuthService _auth = AuthService();
+
+  final _formKey = GlobalKey<FormState>();
+  bool loading = false;
+
+  // text field state
+  String email = '';
+  String password = '';
+  String message = '';
   @override
   Widget build(BuildContext context) {
-  
+
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
@@ -150,21 +157,42 @@ class SignIn extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 13,
-                    child: Text(
-                      "Sign in",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColors.accentText,
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w800,
-                        fontSize: 14,
+                    child: FlatButton(
+                      onPressed: () async {
+                        if(_formKey.currentState.validate()){
+                          setState(() {
+                            loading = true;
+                          });
+                          dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                          if(result == null) {
+                            setState(() {
+                              loading = false;
+                              message = 'Could not sign in with those credentials';
+                            });
+                          }
+                        }
+                      },
+                      child: Text(
+                        "Sign in",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColors.accentText,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w800,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            FlatButton(
+                onPressed: () => widget.toggleView(),
+                child: Center(child: Text('Already have an account? Sign in')))
           ],
         ),
       ),
