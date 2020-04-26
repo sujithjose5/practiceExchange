@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:practiceexchange/services/auth.dart';
@@ -10,7 +9,6 @@ import 'package:practiceexchange/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:practiceexchange/new_article_form.dart';
-
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -39,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   String _selectedScreen = '';
   static List<String> _widgetOptions = <String>[
-    'Index 0: Home',
+    '/home',
     '/readpost',
     '/newArticle',
     'Index 4: Notification',
@@ -118,30 +116,84 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      //User profile icon
-                      Text(
-                        'firstname lastname',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        //User profile icon
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Image(
+                            image: AssetImage(
+                              'assets/images/blankProfilePicture.png',
+                            ),
+                            width: 20,
+                            height: 20,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text(
+                          'firstname lastname',
+                          style: TextStyle(
+                            fontSize: 10.0,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Text(
+                          ' | organisation',
+                          style: TextStyle(
+                            fontSize: 10.0,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Text(' | organisation'),
-                    ],
-                  ),
-                  Text(title),
-                  Text('Some text.'),
-                ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.keyboard_arrow_up,
+                          color: Colors.grey,
+                        ),
+                        Text('$ranking'),
+                        SizedBox(
+                          width: 12.0,
+                        ),
+                        Icon(
+                          Icons.message,
+                          color: Colors.grey,
+                          size: 14.0,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 3.0),
+                          child: Text('23'),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
-              Column(
-                children: <Widget>[
-                  Icon(
-                    Icons.arrow_drop_up,
-                    color: Colors.black,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image(
+                  image: AssetImage(
+                    'assets/images/greybox.jpg',
                   ),
-                  Text('$ranking'),
-                ],
-              )
+                  width: 90,
+                  height: 90,
+                ),
+              ),
             ],
           ),
         ),
@@ -235,24 +287,28 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //make the drop down its own widget for readability
 
+  bool toggle = false;
+
   String _mySelection;
   void _searchPressed() {
     setState(() {
       if (this._searchIcon.icon == Icons.search) {
         this._searchIcon = new Icon(Icons.close);
+        toggle = false;
         this._appBarTitle = new TextField(
           controller: _filter,
           decoration: new InputDecoration(
               prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
         );
       } else {
+        toggle = true;
         this._searchIcon = new Icon(Icons.search);
         _filter.clear();
       }
     });
   }
 
-  Widget dropDown() {
+  Widget _appBarDisplay() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       decoration: BoxDecoration(
@@ -317,7 +373,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Theme(
             data: Theme.of(context)
                 .copyWith(canvasColor: Theme.of(context).primaryColor),
-            child: dropDown(),
+            child: _appBarDisplay(),
           ),
           actions: <Widget>[
             IconButton(
@@ -332,7 +388,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
               child: FlatButton(
-                onPressed: (){},
+                onPressed: () {},
                 child: Text(
                   "Topics for you",
                   style: TextStyle(
@@ -375,22 +431,7 @@ class _MyHomePageState extends State<MyHomePage> {
           getArticles(),
         ],
       ),
-//      Center(
-//        child: _widgetOptions.elementAt(_selectedIndex),
-//      ),
       bottomNavigationBar: _bottomNavigationBar(),
     );
   }
 }
-
-//AppBar(
-//backgroundColor: Color.fromRGBO(0, 111, 173, 1),
-//actions: <Widget>[
-////Add the dropdown widget to the `Action` part of our appBar. it can also be among the `leading` part
-//dropdownWidget(),
-//],
-//leading: new IconButton(
-//icon: _searchIcon,
-//onPressed: _searchPressed,
-//),
-//),
