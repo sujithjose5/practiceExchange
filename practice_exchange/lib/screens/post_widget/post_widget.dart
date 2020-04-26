@@ -113,6 +113,50 @@ class _PostWidgetState extends State<PostWidget> {
             SizedBox(
               height: 10.0,
             ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 140.0),
+              child: FlatButton(
+                padding: EdgeInsets.all(8.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
+                onPressed: () {},
+                color: Color(0xffEEF0F5),
+                textColor: Color(0xff28324B),
+                child: Text('+ Add a tag'),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 10.0),
+              margin: EdgeInsets.only(left: 16.0, right: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.calendar_today,
+                        color: Color(0xff648395),
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text(
+                        'January 1, 2020',
+                        style: TextStyle(
+                          color: Color(0xff648395),
+                          fontFamily: "Montserrat",
+                        ),
+                      )
+                    ],
+                  ),
+                  Divider(
+                    color: Color(0xff648395),
+                    height: 5,
+                  ),
+                ],
+              ),
+            ),
             Align(
               alignment: Alignment.topLeft,
               child: _buildTitle(),
