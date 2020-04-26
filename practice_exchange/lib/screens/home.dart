@@ -1,6 +1,16 @@
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:practiceexchange/services/auth.dart';
+import '../services/auth.dart';
+import 'package:practiceexchange/widgets/view_item_widget.dart';
+import 'package:practiceexchange/screens/read_post/readpost.dart';
+import 'package:practiceexchange/values/values.dart';
+import 'package:practiceexchange/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:practiceexchange/new_article_form.dart';
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -27,10 +37,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget screenPage;
   int _selectedIndex = 0;
-  String _selecteedScreen = '';
+  String _selectedScreen = '';
   static List<String> _widgetOptions = <String>[
     'Index 0: Home',
-    'Index 1: Saved',
+    '/readpost',
     '/newArticle',
     'Index 4: Notification',
     'Index 5: Profile',
@@ -40,8 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      _selecteedScreen = _widgetOptions[index];
-      Navigator.pushNamed(context, _selecteedScreen);
+      _selectedScreen = _widgetOptions[index];
+      Navigator.pushNamed(context, _selectedScreen);
     });
   }
 
@@ -77,8 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     //tests data for now
     List<String> categoryTitles = [
-      'Disaster prep',
-      'healthcare best practices',
+      'Disaster preparation',
+      'Healthcare best practices',
       'Infection control',
     ];
 
@@ -185,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
           //change new article for pen
           icon: Icon(Icons.pages, color: Colors.white),
           title: Text(
-            'New Article',
+            'Post',
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -318,17 +328,19 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: <Widget>[
           Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              child: Text(
-                "Topics for you",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+              child: FlatButton(
+                onPressed: (){},
+                child: Text(
+                  "Topics for you",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),
