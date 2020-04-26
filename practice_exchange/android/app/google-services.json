@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "232409334365",
+    "firebase_url": "https://practice-exchange.firebaseio.com",
+    "project_id": "practice-exchange",
+    "storage_bucket": "practice-exchange.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232409334365:android:364f61cd14340afb5943b4",
+        "android_client_info": {
+          "package_name": "com.hack.practiceexchange"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "232409334365-jb2qul1kl1geltkh3e8ekev7fj8h5qqm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwhgS68cBchCj45xFioHguF72-1z14k4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "232409334365-jb2qul1kl1geltkh3e8ekev7fj8h5qqm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "232409334365-22739fg9nlus0hivnuejfj9c729je30h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hack.practiceexchange"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

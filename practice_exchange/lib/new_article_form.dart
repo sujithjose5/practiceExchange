@@ -111,29 +111,31 @@ class _NewArticleFormState extends State<NewArticleForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(24),
-      child: Form(
-        key: _formKey,
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
-              height: 20.0,
-            ),
-            _buildTitle(),
-            SizedBox(
-              height: 20.0,
-            ),
-            _buildArticleBody(),
-            SizedBox(
-              height: 20.0,
-            ),
-            _buildCategor(),
-            SizedBox(
-              height: 20.0,
-            ),
-            _buildTags(),
-          ],
+    return Scaffold(
+      body: Container(
+        margin: EdgeInsets.all(24),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: <Widget>[
+              SizedBox(
+                height: 20.0,
+              ),
+              _buildTitle(),
+              SizedBox(
+                height: 20.0,
+              ),
+              _buildArticleBody(),
+              SizedBox(
+                height: 20.0,
+              ),
+              _buildCategor(),
+              SizedBox(
+                height: 20.0,
+              ),
+              _buildTags(),
+            ],
+          ),
         ),
       ),
     );
