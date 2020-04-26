@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:practiceexchange/services/auth.dart';
+
+import '../services/auth.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,6 +15,12 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text('home'),
       ),
+      body: FlatButton(
+        child: Text('Sign Out'),
+        onPressed: (){
+          AuthService().signOut();
+        },
+      )
     );
   }
 }
