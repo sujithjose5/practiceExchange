@@ -90,7 +90,6 @@ class _MyHomePageState extends State<MyHomePage> {
         return categoryList(categoryTitles[index]);
       },
     );
-    categoryList('Disaster prep');
   }
 
   Widget articleList(String title, int ranking) {
@@ -164,22 +163,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _searchPressed() {
-    setState(() {
-      if (this._searchIcon.icon == Icons.search) {
-        this._searchIcon = new Icon(Icons.close);
-        this._appBarTitle = new TextField(
-          controller: _filter,
-          decoration: new InputDecoration(
-              prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
-        );
-      } else {
-        this._searchIcon = new Icon(Icons.search);
-        _filter.clear();
-      }
-    });
-  }
-
   Widget _bottomNavigationBar() {
     return BottomNavigationBar(
       backgroundColor: Color.fromRGBO(0, 111, 173, 1),
@@ -240,42 +223,57 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  final List<String> _dropdownValues = [
-    "English",
-    "French",
-    "Spanish",
-  ]; //The list of values we want on the dropdown
-
-  String _currentlySelected = ""; //var to hold currently selected value
-
   //make the drop down its own widget for readability
-  Widget dropdownWidget() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+
+  String _mySelection;
+  void _searchPressed() {
+    setState(() {
+      if (this._searchIcon.icon == Icons.search) {
+        this._searchIcon = new Icon(Icons.close);
+        this._appBarTitle = new TextField(
+          controller: _filter,
+          decoration: new InputDecoration(
+              prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
+        );
+      } else {
+        this._searchIcon = new Icon(Icons.search);
+        _filter.clear();
+      }
+    });
+  }
+
+  Widget dropDown() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.0),
+          border: Border.all(
+            color: Colors.white,
+          )),
       child: DropdownButton(
-        icon: Icon(Icons.arrow_drop_down),
-        //map each value from the lIst to our dropdownMenuItem widget
-        items: _dropdownValues
-            .map((value) => DropdownMenuItem(
-                  child: Text(value),
-                  value: value,
-                ))
-            .toList(),
-        onChanged: (String value) {
-          //once dropdown changes, update the state of out currentValue
+        items: <String>['English', 'French', 'Spanish', 'Italian']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+        onChanged: (newValue) {
           setState(() {
-            _currentlySelected = value;
+            _mySelection = newValue;
+            print(_mySelection);
           });
         },
-        //this wont make dropdown expanded and fill the horizontal space
-        isExpanded: false,
-        //make default value of dropdown the first value of our list
-        value: _dropdownValues.first,
+        icon: Icon(
+          Icons.arrow_drop_down,
+          color: Colors.white,
+        ),
+        hint: Text('Select language',
+            style: TextStyle(color: Colors.white, fontSize: 17)),
+        value: _mySelection,
       ),
     );
   }
-
-  String _mySelection;
 
   Widget _appBarTitle = RaisedButton(
       color: Colors.transparent,
@@ -309,36 +307,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Theme(
             data: Theme.of(context)
                 .copyWith(canvasColor: Theme.of(context).primaryColor),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(
-                    color: Colors.white,
-                  )),
-              child: DropdownButton(
-                items: <String>['English', 'French', 'Spanish', 'Italian']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (newvalue) {
-                  setState(() {
-                    _mySelection = newvalue;
-                    print(_mySelection);
-                  });
-                },
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.white,
-                ),
-                hint: Text('Select language',
-                    style: TextStyle(color: Colors.white, fontSize: 17)),
-                value: _mySelection,
-              ),
-            ), // Your Dropdown Code Here,
+            child: dropDown(),
           ),
           actions: <Widget>[
             IconButton(
