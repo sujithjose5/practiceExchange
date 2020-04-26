@@ -36,10 +36,8 @@ class MyApp extends StatelessWidget {
         routes: {
           '/authentication': (context) => SignUp(),
           '/readpost': (context) => ReadPost(),
-          '/writepost': (context) => PostWidget(),
           '/home': (context) => MyHomePage(),
-          '/newArticle': (context) => NewArticleForm(),
-
+          '/newArticle': (context) => PostWidget(),
         },
       ),
     );

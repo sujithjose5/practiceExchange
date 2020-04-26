@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:practiceexchange/services/auth.dart';
 import '../services/auth.dart';
 import 'package:practiceexchange/widgets/view_item_widget.dart';
-import 'package:practiceexchange/read_post_widget/read_post_widget.dart';
+import 'package:practiceexchange/screens/read_post/readpost.dart';
 import 'package:practiceexchange/values/values.dart';
 import 'package:practiceexchange/services/database.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,10 +37,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget screenPage;
   int _selectedIndex = 0;
-  String _selecteedScreen = '';
+  String _selectedScreen = '';
   static List<String> _widgetOptions = <String>[
     'Index 0: Home',
-    'Index 1: Saved',
+    '/readpost',
     '/newArticle',
     'Index 4: Notification',
     'Index 5: Profile',
@@ -50,15 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      _selecteedScreen = _widgetOptions[index];
-      Navigator.pushNamed(context, _selecteedScreen);
+      _selectedScreen = _widgetOptions[index];
+      Navigator.pushNamed(context, _selectedScreen);
     });
-    if (index == 1) {
-      Navigator.pushNamed(context, '/readpost');
-    }
-    if (index == 2) {
-      Navigator.pushNamed(context, '/writepost');
-    }
   }
 
   Widget categoryList(String title) {
@@ -93,8 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     //tests data for now
     List<String> categoryTitles = [
-      'Disaster prep',
-      'healthcare best practices',
+      'Disaster preparation',
+      'Healthcare best practices',
       'Infection control',
     ];
 
