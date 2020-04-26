@@ -152,13 +152,15 @@ class _MyHomePageState extends State<MyHomePage> {
       'Article title 8',
     ];
 
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: categoryTitles.length,
-      itemBuilder: (BuildContext context, int index) {
-        return articleList(categoryTitles[index], 10);
-      },
+    return Expanded(
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: categoryTitles.length,
+        itemBuilder: (BuildContext context, int index) {
+          return articleList(categoryTitles[index], 10);
+        },
+      ),
     );
   }
 
@@ -228,13 +230,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _divider() {
-    return Expanded(
-      child: Container(
-        margin: EdgeInsets.only(left: 20.0, right: 10.0),
-        child: Divider(
-          color: Colors.grey,
-          height: 5,
-        ),
+    return Container(
+      padding: EdgeInsets.only(top: 10.0),
+      margin: EdgeInsets.only(left: 20.0, right: 10.0),
+      child: Divider(
+        color: Colors.grey,
+        height: 5,
       ),
     );
   }
@@ -342,7 +343,7 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.search, color: Colors.white),
-              onPressed: null,
+              onPressed: _searchPressed,
             ),
           ]),
       body: Column(
@@ -350,7 +351,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Align(
             alignment: Alignment.topLeft,
             child: Container(
-              margin: EdgeInsets.only(left: 29, top: 27),
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
               child: Text(
                 "Topics for you",
                 textAlign: TextAlign.left,
@@ -364,7 +365,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 20.0),
             height: 80.0,
             child: ListView(
               scrollDirection: Axis.horizontal,
@@ -378,7 +378,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Align(
             alignment: Alignment.topLeft,
             child: Container(
-              margin: EdgeInsets.only(left: 29, top: 27),
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
               child: Text(
                 'Your Daily read',
                 textAlign: TextAlign.left,
