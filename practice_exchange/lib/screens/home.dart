@@ -1,6 +1,16 @@
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:practiceexchange/services/auth.dart';
+import '../services/auth.dart';
+import 'package:practiceexchange/widgets/view_item_widget.dart';
+import 'package:practiceexchange/read_post_widget/read_post_widget.dart';
+import 'package:practiceexchange/values/values.dart';
+import 'package:practiceexchange/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:practiceexchange/new_article_form.dart';
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -43,6 +53,12 @@ class _MyHomePageState extends State<MyHomePage> {
       _selecteedScreen = _widgetOptions[index];
       Navigator.pushNamed(context, _selecteedScreen);
     });
+    if (index == 1) {
+      Navigator.pushNamed(context, '/readpost');
+    }
+    if (index == 2) {
+      Navigator.pushNamed(context, '/writepost');
+    }
   }
 
   Widget categoryList(String title) {
@@ -202,7 +218,7 @@ class _MyHomePageState extends State<MyHomePage> {
           //change new article for pen
           icon: Icon(Icons.pages, color: Colors.white),
           title: Text(
-            'New Article',
+            'Post',
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -349,17 +365,19 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: <Widget>[
           Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              child: Text(
-                "Topics for you",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+              child: FlatButton(
+                onPressed: (){},
+                child: Text(
+                  "Topics for you",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),
