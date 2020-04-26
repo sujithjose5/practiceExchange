@@ -103,98 +103,103 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget articleList(String title, int ranking) {
     return Padding(
       padding: const EdgeInsets.all(2.0),
-      child: Container(
-        width: 160.0,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/readpost');
+        },
         child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.grey,
-              width: 1,
+          width: 40.0,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(4),
             ),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        //User profile icon
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Image(
-                            image: AssetImage(
-                              'assets/images/blankProfilePicture.png',
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          //User profile icon
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image(
+                              image: AssetImage(
+                                'assets/images/naomi-2.png',
+                              ),
+                              width: 20,
+                              height: 20,
                             ),
-                            width: 20,
-                            height: 20,
                           ),
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Text(
-                          'firstname lastname',
-                          style: TextStyle(
-                            fontSize: 10.0,
-                            color: Colors.grey,
+                          SizedBox(
+                            width: 10.0,
                           ),
-                        ),
-                        Text(
-                          ' | organisation',
-                          style: TextStyle(
-                            fontSize: 10.0,
-                            color: Colors.grey,
+                          Text(
+                            'firstname lastname',
+                            style: TextStyle(
+                              fontSize: 10.0,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
+                          Text(
+                            ' | organisation',
+                            style: TextStyle(
+                              fontSize: 10.0,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.keyboard_arrow_up,
-                          color: Colors.grey,
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Text('$ranking'),
-                        SizedBox(
-                          width: 12.0,
-                        ),
-                        Icon(
-                          Icons.message,
-                          color: Colors.grey,
-                          size: 14.0,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 3.0),
-                          child: Text('23'),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image(
-                  image: AssetImage(
-                    'assets/images/greybox.jpg',
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.keyboard_arrow_up,
+                            color: Colors.grey,
+                          ),
+                          Text('$ranking'),
+                          SizedBox(
+                            width: 12.0,
+                          ),
+                          Icon(
+                            Icons.message,
+                            color: Colors.grey,
+                            size: 14.0,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 3.0),
+                            child: Text('23'),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-                  width: 90,
-                  height: 90,
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image(
+                    image: AssetImage(
+                      'assets/images/greybox.jpg',
+                    ),
+                    width: 90,
+                    height: 90,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -203,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget getArticles() {
     List<String> categoryTitles = [
-      'Article title',
+      'Best practices disaster recovery \npractices for 2019/2020?',
       'Article title 2',
       'Article title 3',
       'Article title 4',
